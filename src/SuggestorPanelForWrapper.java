@@ -10,11 +10,11 @@ import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
-public class SuggestorPanel extends JPanel {
-	JComboBox<User> c;
-	private SuggestorPanelModel model;
+public class SuggestorPanelForWrapper extends JPanel {
+	JComboBox<UserWrapper> c;
+	private SuggestorPanelModelForWrapper model;
 
-	public SuggestorPanel() {
+	public SuggestorPanelForWrapper() {
 		this.setLayout(new CardLayout());
 		this.add(getComboBox(), "c1");
 	}
@@ -32,47 +32,47 @@ public class SuggestorPanel extends JPanel {
 	}
 
 	void initDataBinding() {
-		BeanProperty<SuggestorPanelModel, List<User>> beanProperty = BeanProperty
+		BeanProperty<SuggestorPanelModelForWrapper, List<UserWrapper>> beanProperty = BeanProperty
 				.create("userFiltered");
-		JComboBoxBinding<User, SuggestorPanelModel, JComboBox> jComboBinding = SwingBindings
+		JComboBoxBinding<UserWrapper, SuggestorPanelModelForWrapper, JComboBox> jComboBinding = SwingBindings
 				.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ,
 						getModel(), beanProperty, getComboBox());
 		jComboBinding.bind();
 
 		BeanProperty<JComboBox, String> comboTextProperty = BeanProperty
 				.create("editor.editorComponent.text");
-		BeanProperty<SuggestorPanelModel, String> typedTextProperty = BeanProperty
+		BeanProperty<SuggestorPanelModelForWrapper, String> typedTextProperty = BeanProperty
 				.create("typedText");
-		AutoBinding<JComboBox, String, SuggestorPanelModel, String> comboBinding = Bindings
+		AutoBinding<JComboBox, String, SuggestorPanelModelForWrapper, String> comboBinding = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
 						getComboBox(), comboTextProperty, getModel(),
 						typedTextProperty);
 		comboBinding.bind();
 
-		BeanProperty<SuggestorPanelModel, Boolean> showingUsersProperty = BeanProperty
+		BeanProperty<SuggestorPanelModelForWrapper, Boolean> showingUsersProperty = BeanProperty
 				.create("showingUsers");
 		BeanProperty<JPanel, Boolean> showingUsersPropertyInPanel = BeanProperty
 				.create("isShowingUsers");
-		AutoBinding<SuggestorPanelModel, Boolean, JPanel, Boolean> showingUsersBinding = Bindings
+		AutoBinding<SuggestorPanelModelForWrapper, Boolean, JPanel, Boolean> showingUsersBinding = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
 						getModel(), showingUsersProperty, this,
 						showingUsersPropertyInPanel);
 		showingUsersBinding.bind();
 	}
 
-	private SuggestorPanelModel getModel() {
+	private SuggestorPanelModelForWrapper getModel() {
 		return model;
 	}
 
-	private JComboBox<User> getComboBox() {
+	private JComboBox<UserWrapper> getComboBox() {
 		if (c == null) {
-			c = new JComboBox<User>();
+			c = new JComboBox<UserWrapper>();
 			c.setEditable(true);
 		}
 		return c;
 	}
 
-	public void setModel(SuggestorPanelModel suggestorPanelModel) {
+	public void setModel(SuggestorPanelModelForWrapper suggestorPanelModel) {
 		this.model = suggestorPanelModel;
 	}
 }

@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class SuggestorPanelModel extends AbstractModelObject {
+public class SuggestorPanelModelForWrapper extends AbstractModelObject {
 	private String typedText = "";
-	private List<User> userMatchedForThreeChars = new ArrayList<>();
-	private List<User> userFiltered = new ArrayList<>();
+	private List<UserWrapper> userMatchedForThreeChars = new ArrayList<>();
+	private List<UserWrapper> userFiltered = new ArrayList<>();
 	private boolean showingUsers = false;
 
 	public boolean isShowingUsers() {
@@ -29,7 +29,7 @@ public class SuggestorPanelModel extends AbstractModelObject {
 		} else if (typedText.length() > 3) {
 			setUserFiltered(filterUser(typedText));
 		} else {
-			setUserFiltered(new ArrayList<User>());
+			setUserFiltered(new ArrayList<UserWrapper>());
 		}
 	}
 
@@ -38,10 +38,10 @@ public class SuggestorPanelModel extends AbstractModelObject {
 		setUserFiltered(userMatchedForThreeChars);
 	}
 
-	private List<User> filterUser(String typedText) {
-		ArrayList<User> list = new ArrayList<>();
-		for (int i = 1; i < userMatchedForThreeChars.size(); i++) {
-			if (userMatchedForThreeChars.get(i).getUserName()
+	private List<UserWrapper> filterUser(String typedText) {
+		ArrayList<UserWrapper> list = new ArrayList<>();
+		for (int i = 0; i < userMatchedForThreeChars.size(); i++) {
+			if (userMatchedForThreeChars.get(i).getUser().getUserName()
 					.startsWith(typedText)) {
 				list.add(userMatchedForThreeChars.get(i));
 			}
@@ -49,25 +49,26 @@ public class SuggestorPanelModel extends AbstractModelObject {
 		return list;
 	}
 
-	private List<User> loadDataFromServer(String typedText) {
-		return new Dummy().getFilteredUsers(typedText);
+	private List<UserWrapper> loadDataFromServer(String typedText) {
+		return UserMapper.toUserWrapperList(new Dummy()
+				.getFilteredUsers(typedText));
 	}
 
-	public List<User> getUserMatchedForThreeChars() {
+	public List<UserWrapper> getUserMatchedForThreeChars() {
 		return userMatchedForThreeChars;
 	}
 
-	public void setUserMatchedForThreeChars(List<User> userMatchedForThreeChars) {
+	public void setUserMatchedForThreeChars(
+			List<UserWrapper> userMatchedForThreeChars) {
 		this.userMatchedForThreeChars = userMatchedForThreeChars;
 	}
 
-	public List<User> getUserFiltered() {
+	public List<UserWrapper> getUserFiltered() {
 		return userFiltered;
 	}
 
-	public void setUserFiltered(List<User> userFiltered) {
-		userFiltered.add(0, new User(typedText));
-		List<User> oldValue = this.userFiltered;
+	public void setUserFiltered(List<UserWrapper> userFiltered) {
+		List<UserWrapper> oldValue = this.userFiltered;
 		this.userFiltered = userFiltered;
 		firePropertyChange("userFiltered", oldValue, this.userFiltered);
 		if (!(userFiltered.isEmpty())) {
