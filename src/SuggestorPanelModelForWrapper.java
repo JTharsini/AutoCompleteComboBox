@@ -41,7 +41,7 @@ public class SuggestorPanelModelForWrapper extends AbstractModelObject {
 	private List<UserWrapper> filterUser(String typedText) {
 		ArrayList<UserWrapper> list = new ArrayList<>();
 		for (int i = 0; i < userMatchedForThreeChars.size(); i++) {
-			if (userMatchedForThreeChars.get(i).getUser().getUserName()
+			if (userMatchedForThreeChars.get(i).getUser() != null && userMatchedForThreeChars.get(i).getUser().getUserName()
 					.startsWith(typedText)) {
 				list.add(userMatchedForThreeChars.get(i));
 			}
@@ -68,6 +68,7 @@ public class SuggestorPanelModelForWrapper extends AbstractModelObject {
 	}
 
 	public void setUserFiltered(List<UserWrapper> userFiltered) {
+		//userFiltered.add(0, new UserWrapper(typedText)); problematic
 		List<UserWrapper> oldValue = this.userFiltered;
 		this.userFiltered = userFiltered;
 		firePropertyChange("userFiltered", oldValue, this.userFiltered);

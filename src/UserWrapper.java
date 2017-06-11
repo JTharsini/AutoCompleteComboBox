@@ -1,18 +1,17 @@
 
 public class UserWrapper {
 	private User user;
-	private String dummy;
-	
-	public UserWrapper(String dummy)
-	{
-		this.dummy = dummy;
-	}
+	String dummy;
 
 	public UserWrapper(User user) {
 		super();
 		this.user = user;
 	}
 	
+	public UserWrapper(String typedText) {
+		this.dummy = typedText;
+	}
+
 	public User getUser() {
 		return user;
 	}
