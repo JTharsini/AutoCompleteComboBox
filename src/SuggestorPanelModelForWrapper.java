@@ -69,13 +69,28 @@ public class SuggestorPanelModelForWrapper extends AbstractModelObject {
 	public List<UserWrapper> getUserFiltered() {
 		return userFiltered;
 	}
+	
+	private boolean containsName(List<UserWrapper> userFiltered, String text)
+	{
+		for(UserWrapper userWrapper : userFiltered)
+		{
+			if(userWrapper.getUser().getUserName().equalsIgnoreCase(text))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void setUserFiltered(List<UserWrapper> userFiltered) {
-		//userFiltered.add(0, new UserWrapper(typedText));// problematic
+		if(!containsName(userFiltered, typedText))
+		{
+			userFiltered.add(0, new UserWrapper(typedText));// problematic
+		}
 		List<UserWrapper> oldValue = this.userFiltered;
 		this.userFiltered = new ArrayList<>(userFiltered);
 		firePropertyChange("userFiltered", oldValue, this.userFiltered);
-		if (!(userFiltered.isEmpty())) {
+		if (userFiltered.size() != 1) {
 			setShowingUsers(true);
 		} else {
 			setShowingUsers(false);

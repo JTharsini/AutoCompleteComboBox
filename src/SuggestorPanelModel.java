@@ -1,3 +1,4 @@
+import java.beans.Beans;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,13 +65,28 @@ public class SuggestorPanelModel extends AbstractModelObject {
 	public List<User> getUserFiltered() {
 		return userFiltered;
 	}
+	
+	private boolean containsName(List<User> userFiltered, String text)
+	{
+		for(User userWrapper : userFiltered)
+		{
+			if(userWrapper.getUserName().equalsIgnoreCase(text))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void setUserFiltered(List<User> userFiltered) {
-		userFiltered.add(0, new User(typedText));
+		if(!containsName(userFiltered, typedText))
+		{
+			userFiltered.add(0, new User(typedText));// problematic
+		}
 		List<User> oldValue = this.userFiltered;
 		this.userFiltered = userFiltered;
 		firePropertyChange("userFiltered", oldValue, this.userFiltered);
-		if (!(userFiltered.isEmpty())) {
+		if (userFiltered.size() != 1) {
 			setShowingUsers(true);
 		} else {
 			setShowingUsers(false);

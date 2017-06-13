@@ -9,15 +9,15 @@ public class SearchBoxBindingTest {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 
-		/*SuggestorPanel suggestorPanel = new SuggestorPanel();
+		SuggestorPanel suggestorPanel = new SuggestorPanel();
 		suggestorPanel.setModel(new SuggestorPanelModel());
 		suggestorPanel.initDataBinding();
-		frame.add(suggestorPanel, BorderLayout.CENTER);*/
+		frame.add(suggestorPanel, BorderLayout.CENTER);
 
-		SuggestorPanelForWrapper suggestorPanelForWrapper = new SuggestorPanelForWrapper();
+		/*SuggestorPanelForWrapper suggestorPanelForWrapper = new SuggestorPanelForWrapper();
 		suggestorPanelForWrapper.setModel(new SuggestorPanelModelForWrapper());
 		suggestorPanelForWrapper.initDataBinding();
-		frame.add(suggestorPanelForWrapper, BorderLayout.CENTER);
+		frame.add(suggestorPanelForWrapper, BorderLayout.CENTER);*/
 
 		frame.setSize(200, 70);
 		frame.setVisible(true);
