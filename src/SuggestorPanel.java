@@ -19,18 +19,6 @@ public class SuggestorPanel extends JPanel {
 		this.add(getComboBox(), "c1");
 	}
 
-	public void setIsShowingUsers(boolean showingUsers) {
-		if (showingUsers) {
-			getComboBox().setPopupVisible(true);
-		} else {
-			getComboBox().setPopupVisible(false);
-		}
-	}
-
-	public boolean getIsShowingUsers() {
-		return getComboBox().isPopupVisible();
-	}
-
 	void initDataBinding() {
 		BeanProperty<SuggestorPanelModel, List<User>> beanProperty = BeanProperty
 				.create("userFiltered");
@@ -51,11 +39,11 @@ public class SuggestorPanel extends JPanel {
 
 		BeanProperty<SuggestorPanelModel, Boolean> showingUsersProperty = BeanProperty
 				.create("showingUsers");
-		BeanProperty<JPanel, Boolean> showingUsersPropertyInPanel = BeanProperty
-				.create("isShowingUsers");
-		AutoBinding<SuggestorPanelModel, Boolean, JPanel, Boolean> showingUsersBinding = Bindings
+		BeanProperty<JComboBox, Boolean> showingUsersPropertyInPanel = BeanProperty
+				.create("popupVisible");
+		AutoBinding<SuggestorPanelModel, Boolean, JComboBox, Boolean> showingUsersBinding = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE,
-						getModel(), showingUsersProperty, this,
+						getModel(), showingUsersProperty, getComboBox(),
 						showingUsersPropertyInPanel);
 		showingUsersBinding.bind();
 	}

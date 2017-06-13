@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SuggestorPanelModelForWrapper extends AbstractModelObject {
-	private String typedText = "";
+	private String typedText;
 	private List<UserWrapper> userMatchedForThreeChars = new ArrayList<>();
 	private List<UserWrapper> userFiltered = new ArrayList<>();
 	private boolean showingUsers = false;
@@ -22,14 +22,17 @@ public class SuggestorPanelModelForWrapper extends AbstractModelObject {
 	}
 
 	public void setTypedText(String typedText) {
-		this.typedText = typedText;
-		System.out.println(typedText);
-		if (typedText.length() == 3) {
-			typedCharCountIsThree(typedText);
-		} else if (typedText.length() > 3) {
-			setUserFiltered(filterUser(typedText));
-		} else {
-			setUserFiltered(new ArrayList<UserWrapper>());
+		if(typedText != null)
+		{
+			this.typedText = typedText;
+			System.out.println(typedText);
+			if (typedText.length() == 3) {
+				typedCharCountIsThree(typedText);
+			} else if (typedText.length() > 3) {
+				setUserFiltered(filterUser(typedText));
+			} else {
+				setUserFiltered(new ArrayList<UserWrapper>());
+			}
 		}
 	}
 
@@ -68,9 +71,9 @@ public class SuggestorPanelModelForWrapper extends AbstractModelObject {
 	}
 
 	public void setUserFiltered(List<UserWrapper> userFiltered) {
-		//userFiltered.add(0, new UserWrapper(typedText)); problematic
+		//userFiltered.add(0, new UserWrapper(typedText));// problematic
 		List<UserWrapper> oldValue = this.userFiltered;
-		this.userFiltered = userFiltered;
+		this.userFiltered = new ArrayList<>(userFiltered);
 		firePropertyChange("userFiltered", oldValue, this.userFiltered);
 		if (!(userFiltered.isEmpty())) {
 			setShowingUsers(true);
